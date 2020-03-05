@@ -1,6 +1,8 @@
 import Objection, { compose } from 'objection';
 import knex from '../../knex';
-import { CursorPaginationQueryBuilder } from '../query-builder/cursor-pagination';
+import './objection-cursor.plugin';
+
+const cursorMixin = require('objection-cursor');
 
 // Attach knex to objection model
 Objection.Model.knex(knex);
@@ -8,11 +10,17 @@ Objection.Model.knex(knex);
 // Insert plugins if there's any, e.g. objection-timestamps
 // but timestamps should be generated
 // in the DB level instead of app level.
-const EnhancedModel = compose([])(Objection.Model);
+const EnhancedModel = compose([
+  cursorMixin({
+    nodes: true,
+    results: false,
+    pageInfo: {
+      total: true,
+      remaining: true,
+      hasNext: true,
+      hasPrevious: true,
+    },
+  }),
+])(Objection.Model);
 
-export class BaseModel extends EnhancedModel {
-  // See https://vincit.github.io/objection.js/recipes/custom-query-builder.html#extending-the-query-builder-in-typescript
-  // Both of these are needed.
-  QueryBuilderType!: CursorPaginationQueryBuilder<this>;
-  static QueryBuilder = CursorPaginationQueryBuilder;
-}
+export class BaseModel extends EnhancedModel {}

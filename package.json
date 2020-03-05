@@ -97,6 +97,7 @@
     "merge-graphql-schemas": "^1.7.6",
     "morgan": "^1.9.1",
     "objection": "^2.1.3",
+    "objection-cursor": "git+https://github.com/olavim/objection-cursor.git",
     "pg": "^7.18.2",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3",

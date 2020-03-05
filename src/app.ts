@@ -10,6 +10,7 @@ import { createServer } from 'http';
 import compression from 'compression';
 import helmet from 'helmet';
 import express from 'express';
+import { User } from './db/models';
 
 const app = express();
 
@@ -20,6 +21,16 @@ const app = express();
   } catch {
     return;
   }
+
+  const result = await User.query()
+    .select()
+    .orderBy('firstName')
+    .orderBy('lastName')
+    .limit(5)
+    .nextCursorPage('KGpzb24pIkFiZWwi.KGpzb24pIkFic2hpcmUi');
+
+  // tslint:disable-next-line: no-console
+  console.log('result', JSON.stringify(result, null, 2));
 
   app.use(corsMiddleware());
   app.use(express.json());

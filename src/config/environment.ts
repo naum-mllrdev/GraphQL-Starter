@@ -94,7 +94,7 @@ const ENVIRONMENT_CONFIG: IEnvironmentConfig = {
 
     db: {
       database: process.env.LOCAL_PG_DATABASE || 'db',
-      host: process.env.LOCAL_PG_HOST || 'db', // 'db' is the service name of the postgres container
+      host: process.env.LOCAL_PG_HOST || 'localhost' || 'db', // 'db' is the service name of the postgres container
       password: process.env.LOCAL_PG_PASSWORD || 'password',
       user: process.env.LOCAL_PG_USER || 'postgres',
       debug: true,
