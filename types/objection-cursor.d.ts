@@ -2,7 +2,7 @@ import { ICursorPaginationResult } from '@app/core/interfaces';
 
 declare module 'objection' {
   interface QueryBuilder<M extends Model, R = M[]> extends Promise<R> {
-    cursorPage(cursor: string | null | undefined, before?: boolean): Promise<IObjectionCursorResult<M>>;
+    cursorPage(cursor: string | null | undefined, before?: boolean): this;
     nextCursorPage(cursor?: string | null): Promise<ICursorPaginationResult<M>>;
     previousCursorPage(cursor?: string | null): Promise<ICursorPaginationResult<M>>;
   }
