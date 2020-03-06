@@ -25,23 +25,15 @@ const EnhancedModel = compose([
   }),
 ])(Objection.Model);
 
-class MyQueryBuilder<M extends Objection.Model, R = M[]> extends EnhancedModel.QueryBuilder<M, R> {
-  // These are necessary. You can just copy-paste them and change the
-  // name of the query builder class.
-  ArrayQueryBuilderType!: MyQueryBuilder<M, M[]>;
-  SingleQueryBuilderType!: MyQueryBuilder<M, M>;
-  NumberQueryBuilderType!: MyQueryBuilder<M, number>;
-  PageQueryBuilderType!: MyQueryBuilder<M, Objection.Page<M>>;
-
-  cursorPage(cursor?: string | null, before = false) {
-    // tslint:disable-next-line: no-any
-    return super.cursorPage(cursor, before).runAfter(result => mapToCursorPaginationResult(result as any));
-  }
-}
-
 export class BaseModel extends EnhancedModel {
-  QueryBuilderType!: MyQueryBuilder<this>;
-  static get QueryBuilder() {
-    return MyQueryBuilder;
-  }
+  // Note: For some reason, if we set QueryBuilder, orderby gets ignored?
+  // QueryBuilderType!: MyQueryBuilder<this>;
+  // static get QueryBuilder() {
+  //   return class<M extends Objection.Model, R = M[]> extends EnhancedModel.QueryBuilder<M, R> {
+  //     // cursorPage(cursor?: string | null, before = false) {
+  //     //   // tslint:disable-next-line: no-any
+  //     //   return super.cursorPage(cursor, before) // .runAfter(result => mapToCursorPaginationResult(result as any));
+  //     // }
+  //   };
+  // }
 }
