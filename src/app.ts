@@ -27,7 +27,7 @@ const app = express();
     .orderBy('firstName')
     .orderBy('lastName')
     .limit(5)
-    .nextCursorPage();
+    .previousCursorPage('KGpzb24pIkFiYnki.KGpzb24pIkhhbnNlbiI');
 
   // tslint:disable-next-line: no-console
   console.log('result', JSON.stringify(result, null, 2));

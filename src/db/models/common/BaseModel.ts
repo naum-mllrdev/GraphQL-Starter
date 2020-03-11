@@ -28,12 +28,12 @@ const EnhancedModel = compose([
 export class BaseModel extends EnhancedModel {
   // Note: For some reason, if we set QueryBuilder, orderby gets ignored?
   // QueryBuilderType!: MyQueryBuilder<this>;
-  // static get QueryBuilder() {
-  //   return class<M extends Objection.Model, R = M[]> extends EnhancedModel.QueryBuilder<M, R> {
-  //     // cursorPage(cursor?: string | null, before = false) {
-  //     //   // tslint:disable-next-line: no-any
-  //     //   return super.cursorPage(cursor, before) // .runAfter(result => mapToCursorPaginationResult(result as any));
-  //     // }
-  //   };
-  // }
+  static get QueryBuilder() {
+    return class<M extends Objection.Model, R = M[]> extends EnhancedModel.QueryBuilder<M, R> {
+      cursorPage(cursor?: string | null, before = false) {
+        // tslint:disable-next-line: no-any
+        return super.cursorPage(cursor, before).runAfter(result => mapToCursorPaginationResult(result as any));
+      }
+    };
+  }
 }
