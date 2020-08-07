@@ -1,0 +1,25 @@
+extend type Query {
+  pets(first: Int = 25, before: String, after: String, sortBy: PetSortField): PetConnection!
+}
+
+type PetConnection {
+  edges: [PetEdge]!
+  nodes: [Pet]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type PetEdge {
+  cursor: String!
+  node: Pet
+}
+
+input PetSort {
+  field: PetSortField!
+  direction: SortDirection!
+}
+
+enum PetSortField {
+  CREATED_AT
+  UPDATED_AT
+}

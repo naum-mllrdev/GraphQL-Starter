@@ -1,0 +1,22 @@
+extend type Query {
+  pet(id: GUID!): Pet!
+}
+
+extend type Mutation {
+  createPet(input: PetInput!): Pet!
+  deletePet(id: GUID!): Boolean!
+  updatePet(id: GUID!, input: PetInput!): Pet!
+}
+
+type Pet implements Node {
+  id: GUID!
+  name: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  owner: Owner
+}
+
+input PetInput {
+  name: String!
+  ownerId: GUID
+}

@@ -1,0 +1,21 @@
+extend type Query {
+  owner(id: GUID!): Owner!
+}
+
+extend type Mutation {
+  createOwner(input: OwnerInput!): Owner!
+  deleteOwner(id: GUID!): Boolean!
+  updateOwner(id: GUID!, input: OwnerInput!): Owner!
+}
+
+type Owner implements Node {
+  id: GUID!
+  name: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  pets: [Pet]
+}
+
+input OwnerInput {
+  name: String!
+}

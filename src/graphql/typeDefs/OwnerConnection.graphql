@@ -1,0 +1,25 @@
+extend type Query {
+  owners(first: Int = 25, before: String, after: String, sortBy: OwnerSort): OwnerConnection!
+}
+
+type OwnerConnection {
+  edges: [OwnerEdge]!
+  nodes: [Owner]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type OwnerEdge {
+  cursor: String!
+  node: Owner
+}
+
+input OwnerSort {
+  field: OwnerSortField!
+  direction: SortDirection!
+}
+
+enum OwnerSortField {
+  CREATED_AT
+  UPDATED_AT
+}

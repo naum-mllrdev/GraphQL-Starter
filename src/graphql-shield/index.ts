@@ -2,6 +2,12 @@ import { shield, allow, deny, and, IRules } from 'graphql-shield';
 import { isAuthenticated, yupRule, can } from './rules';
 import { loginSchema, registerSchema, cursorArgsSchema } from './yup-validation-schemas';
 import { GQL_Resolvers, StitchingResolver } from 'graphql-resolvers';
+import { updateOwnerSchema } from './yup-validation-schemas/update-owner.schema';
+import { createOwnerSchema } from './yup-validation-schemas/create-owner.schema';
+import { deleteOwnerSchema } from './yup-validation-schemas/delete-owner.schema';
+import { createPetSchema } from './yup-validation-schemas/create-pet.schema';
+import { updatePetSchema } from './yup-validation-schemas/update-pet.schema';
+import { deletePetSchema } from './yup-validation-schemas/delete-pet.schema';
 
 /**
  * Read more about `GraphQL Shield` if this doesn't make sense to you.
@@ -14,20 +20,28 @@ import { GQL_Resolvers, StitchingResolver } from 'graphql-resolvers';
  */
 const rules: ShieldRuleTree = {
   Query: {
-    '*': isAuthenticated,
+    '*': allow,
     _dummy: allow,
     _sampleDateTimeScalar: allow,
     _sampleDateScalar: allow,
     _sampleTimeScalar: allow,
     _authorizedOnlyQuery: allow,
     users: and(isAuthenticated, yupRule(cursorArgsSchema), can('read', 'User')),
+    owners: and(yupRule(cursorArgsSchema)),
+    pets: and(yupRule(cursorArgsSchema)),
   },
   Mutation: {
-    '*': isAuthenticated,
+    '*': allow,
     _dummy: allow,
     login: yupRule(loginSchema),
     logout: allow,
     register: yupRule(registerSchema),
+    createOwner: yupRule(createOwnerSchema),
+    updateOwner: yupRule(updateOwnerSchema),
+    deleteOwner: yupRule(deleteOwnerSchema),
+    createPet: yupRule(createPetSchema),
+    updatePet: yupRule(updatePetSchema),
+    deletePet: yupRule(deletePetSchema),
   },
   Subscription: {
     '*': isAuthenticated,
